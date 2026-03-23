@@ -8,6 +8,7 @@ import android.os.CountDownTimer;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -21,11 +22,13 @@ public class LockScreenActivity extends AppCompatActivity {
     TextView tvBlockedMessage, tvChallengeQuestion, tvCreditInfo;
     EditText etChallengeAnswer;
     Button btnWait, btnChallenge, btnPay, btnSubmitAnswer;
+    LinearLayout challengeContainer;
 
     String blockedApp;
     String blockedAppLabel;
     int correctAnswer;
     boolean unlocked = false;
+    CountDownTimer countDownTimer;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,12 +45,12 @@ public class LockScreenActivity extends AppCompatActivity {
         btnChallenge = findViewById(R.id.btnChallenge);
         btnPay = findViewById(R.id.btnPay);
         btnSubmitAnswer = findViewById(R.id.btnSubmitAnswer);
+        challengeContainer = findViewById(R.id.challengeContainer);
 
         blockedApp = getIntent().getStringExtra("blocked_app");
         blockedAppLabel = getAppLabel(blockedApp);
 
         tvBlockedMessage.setText(getString(R.string.opening_app_costs_you, blockedAppLabel));
-
         updateCreditInfo();
 
         btnWait.setOnClickListener(v -> startWaitTimer());
@@ -88,12 +91,12 @@ public class LockScreenActivity extends AppCompatActivity {
     }
 
     private void startWaitTimer() {
+        hideChallenge();
         btnWait.setEnabled(false);
         btnChallenge.setEnabled(false);
         btnPay.setEnabled(false);
-        btnSubmitAnswer.setEnabled(false);
 
-        new CountDownTimer(60000, 1000) {
+        countDownTimer = new CountDownTimer(60000, 1000) {
             @Override
             public void onTick(long millisUntilFinished) {
                 long secondsLeft = millisUntilFinished / 1000;
@@ -108,16 +111,28 @@ public class LockScreenActivity extends AppCompatActivity {
     }
 
     private void showChallenge() {
+        if (countDownTimer != null) {
+            countDownTimer.cancel();
+        }
+
+        btnWait.setText("Wait 60 Seconds");
+        btnWait.setEnabled(true);
+        btnChallenge.setEnabled(true);
+        btnPay.setEnabled(true);
+
         Random random = new Random();
         int a = random.nextInt(10) + 1;
         int b = random.nextInt(10) + 1;
         correctAnswer = a + b;
 
         tvChallengeQuestion.setText(getString(R.string.challenge_question_format, a, b));
-        tvChallengeQuestion.setVisibility(View.VISIBLE);
         etChallengeAnswer.setText("");
-        etChallengeAnswer.setVisibility(View.VISIBLE);
-        btnSubmitAnswer.setVisibility(View.VISIBLE);
+        challengeContainer.setVisibility(View.VISIBLE);
+    }
+
+    private void hideChallenge() {
+        challengeContainer.setVisibility(View.GONE);
+        etChallengeAnswer.setText("");
     }
 
     private void checkAnswer() {
@@ -177,5 +192,13 @@ public class LockScreenActivity extends AppCompatActivity {
         homeIntent.addCategory(Intent.CATEGORY_HOME);
         homeIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         startActivity(homeIntent);
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        if (countDownTimer != null) {
+            countDownTimer.cancel();
+        }
     }
 }
