@@ -1,6 +1,7 @@
 package com.KeenOx.paylock;
 
 import android.content.Intent;
+import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.os.CountDownTimer;
@@ -22,6 +23,7 @@ public class LockScreenActivity extends AppCompatActivity {
     Button btnWait, btnChallenge, btnPay, btnSubmitAnswer;
 
     String blockedApp;
+    String blockedAppLabel;
     int correctAnswer;
     boolean unlocked = false;
 
@@ -42,10 +44,9 @@ public class LockScreenActivity extends AppCompatActivity {
         btnSubmitAnswer = findViewById(R.id.btnSubmitAnswer);
 
         blockedApp = getIntent().getStringExtra("blocked_app");
+        blockedAppLabel = getAppLabel(blockedApp);
 
-        if (blockedApp != null) {
-            tvBlockedMessage.setText(getString(R.string.opening_app_costs_you, blockedApp));
-        }
+        tvBlockedMessage.setText(getString(R.string.opening_app_costs_you, blockedAppLabel));
 
         updateCreditInfo();
 
@@ -65,6 +66,20 @@ public class LockScreenActivity extends AppCompatActivity {
                 }
             }
         });
+    }
+
+    private String getAppLabel(String packageName) {
+        if (packageName == null) {
+            return "this app";
+        }
+
+        try {
+            PackageManager packageManager = getPackageManager();
+            ApplicationInfo applicationInfo = packageManager.getApplicationInfo(packageName, 0);
+            return packageManager.getApplicationLabel(applicationInfo).toString();
+        } catch (Exception e) {
+            return packageName;
+        }
     }
 
     private void updateCreditInfo() {
