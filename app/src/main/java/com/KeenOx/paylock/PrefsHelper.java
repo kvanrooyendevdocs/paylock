@@ -19,6 +19,16 @@ public class PrefsHelper {
         return new HashSet<>(prefs.getStringSet(KEY_BLOCKED_APPS, new HashSet<>()));
     }
 
+    public static void setBlockedApps(Context context, Set<String> blockedApps) {
+        SharedPreferences prefs = context.getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE);
+        prefs.edit().putStringSet(KEY_BLOCKED_APPS, new HashSet<>(blockedApps)).apply();
+    }
+
+    public static void clearBlockedApps(Context context) {
+        SharedPreferences prefs = context.getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE);
+        prefs.edit().remove(KEY_BLOCKED_APPS).apply();
+    }
+
     public static void allowAppUntil(Context context, String packageName, long allowedUntil) {
         SharedPreferences prefs = context.getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE);
         prefs.edit().putLong(KEY_ALLOWED_UNTIL_PREFIX + packageName, allowedUntil).apply();

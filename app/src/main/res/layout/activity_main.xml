@@ -10,7 +10,7 @@
         android:id="@+id/tvTitle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="PayLock"
+        android:text="@string/app_name"
         android:textSize="32sp"
         android:textStyle="bold"
         android:layout_marginBottom="16dp" />
@@ -37,11 +37,25 @@
         android:text="Select Apps"
         android:layout_marginTop="12dp" />
 
+    <Button
+        android:id="@+id/btnResetCredits"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Reset Credits"
+        android:layout_marginTop="12dp" />
+
+    <Button
+        android:id="@+id/btnResetBlockedApps"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Reset Blocked Apps"
+        android:layout_marginTop="12dp" />
+
     <TextView
         android:id="@+id/tvStatus"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Status: Not enabled"
+        android:text="@string/status_not_enabled"
         android:textSize="14sp"
         android:layout_marginTop="24dp" />
 
@@ -50,6 +64,15 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Credits: 10"
+        android:textSize="16sp"
+        android:textStyle="bold"
+        android:layout_marginTop="12dp" />
+
+    <TextView
+        android:id="@+id/tvBlockedAppsCount"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Blocked apps: 0"
         android:textSize="16sp"
         android:textStyle="bold"
         android:layout_marginTop="12dp" />
