@@ -7,6 +7,7 @@ import android.provider.Settings;
 import android.text.TextUtils;
 import android.widget.Button;
 import android.widget.TextView;
+import android.util.Log;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -49,14 +50,14 @@ public class MainActivity extends AppCompatActivity {
 
     private void updateCredits() {
         int credits = PrefsHelper.getCredits(this);
-        tvCredits.setText("Credits: " + credits);
+        tvCredits.setText(getString(R.string.credits_format, credits));
     }
 
     private void updateAccessibilityStatus() {
         if (isAccessibilityServiceEnabled()) {
-            tvStatus.setText("Status: Enabled");
+            tvStatus.setText(R.string.status_enabled);
         } else {
-            tvStatus.setText("Status: Not enabled");
+            tvStatus.setText(R.string.status_not_enabled);
         }
     }
 
@@ -70,7 +71,7 @@ public class MainActivity extends AppCompatActivity {
                     Settings.Secure.ACCESSIBILITY_ENABLED
             );
         } catch (Settings.SettingNotFoundException e) {
-            e.printStackTrace();
+            android.util.Log.e("PAYLOCK", "Accessibility setting not found", e);
         }
 
         if (accessibilityEnabled == 1) {

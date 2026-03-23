@@ -44,7 +44,7 @@ public class LockScreenActivity extends AppCompatActivity {
         blockedApp = getIntent().getStringExtra("blocked_app");
 
         if (blockedApp != null) {
-            tvBlockedMessage.setText("Opening " + blockedApp + " costs you.");
+            tvBlockedMessage.setText(getString(R.string.opening_app_costs_you, blockedApp));
         }
 
         updateCreditInfo();
@@ -69,7 +69,7 @@ public class LockScreenActivity extends AppCompatActivity {
 
     private void updateCreditInfo() {
         int credits = PrefsHelper.getCredits(this);
-        tvCreditInfo.setText("Credits available: " + credits + " (cost: 1)");
+        tvCreditInfo.setText(getString(R.string.credits_available_format, credits));
     }
 
     private void startWaitTimer() {
@@ -82,7 +82,7 @@ public class LockScreenActivity extends AppCompatActivity {
             @Override
             public void onTick(long millisUntilFinished) {
                 long secondsLeft = millisUntilFinished / 1000;
-                btnWait.setText("Wait " + secondsLeft + "s");
+                btnWait.setText(getString(R.string.wait_seconds_format, secondsLeft));
             }
 
             @Override
@@ -98,7 +98,7 @@ public class LockScreenActivity extends AppCompatActivity {
         int b = random.nextInt(10) + 1;
         correctAnswer = a + b;
 
-        tvChallengeQuestion.setText("What is " + a + " + " + b + "?");
+        tvChallengeQuestion.setText(getString(R.string.challenge_question_format, a, b));
         tvChallengeQuestion.setVisibility(View.VISIBLE);
         etChallengeAnswer.setText("");
         etChallengeAnswer.setVisibility(View.VISIBLE);

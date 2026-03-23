@@ -1,3 +1,10 @@
 <resources>
     <string name="app_name">PayLock</string>
+    <string name="status_enabled">Status: Enabled</string>
+    <string name="status_not_enabled">Status: Not enabled</string>
+    <string name="credits_format">Credits: %1$d</string>
+    <string name="opening_app_costs_you">Opening %1$s costs you.</string>
+    <string name="credits_available_format">Credits available: %1$d (cost: 1)</string>
+    <string name="wait_seconds_format">Wait %1$ds</string>
+    <string name="challenge_question_format">What is %1$d + %2$d?</string>
 </resources>
