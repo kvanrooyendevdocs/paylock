@@ -14,6 +14,9 @@ public class PrefsHelper {
     private static final String KEY_CREDITS = "credits";
     private static final String KEY_ALLOWED_UNTIL_PREFIX = "allowed_until_";
 
+    // How long an app stays temporarily unlocked after solving the lock
+    private static final long TEMP_ALLOW_DURATION_MS = 60_000; // 60 seconds
+
     public static Set<String> getBlockedApps(Context context) {
         SharedPreferences prefs = context.getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE);
         return new HashSet<>(prefs.getStringSet(KEY_BLOCKED_APPS, new HashSet<>()));
@@ -32,6 +35,11 @@ public class PrefsHelper {
     public static void allowAppUntil(Context context, String packageName, long allowedUntil) {
         SharedPreferences prefs = context.getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE);
         prefs.edit().putLong(KEY_ALLOWED_UNTIL_PREFIX + packageName, allowedUntil).apply();
+    }
+
+    public static void allowAppTemporarily(Context context, String packageName) {
+        long allowedUntil = System.currentTimeMillis() + TEMP_ALLOW_DURATION_MS;
+        allowAppUntil(context, packageName, allowedUntil);
     }
 
     public static long getAllowedUntil(Context context, String packageName) {

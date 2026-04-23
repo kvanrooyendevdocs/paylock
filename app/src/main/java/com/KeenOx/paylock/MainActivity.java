@@ -9,6 +9,8 @@ import android.util.Log;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
+import android.provider.Settings;
+import android.view.View;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -24,6 +26,8 @@ public class MainActivity extends AppCompatActivity {
     TextView tvCredits;
     TextView tvBlockedAppsCount;
 
+    Button btnOpenAccessibilitySettings;
+    private static final String TAG = "PayLock_Main";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -38,6 +42,7 @@ public class MainActivity extends AppCompatActivity {
         tvStatus = findViewById(R.id.tvStatus);
         tvCredits = findViewById(R.id.tvCredits);
         tvBlockedAppsCount = findViewById(R.id.tvBlockedAppsCount);
+        btnOpenAccessibilitySettings = findViewById(R.id.btnOpenAccessibilitySettings);
 
         btnEnableAccessibility.setOnClickListener(v -> {
             Intent intent = new Intent(Settings.ACTION_ACCESSIBILITY_SETTINGS);
@@ -60,11 +65,24 @@ public class MainActivity extends AppCompatActivity {
             updateBlockedAppsCount();
             Toast.makeText(this, "Blocked apps cleared", Toast.LENGTH_SHORT).show();
         });
+
+
+
+
+        btnOpenAccessibilitySettings.setOnClickListener(v -> {
+            Intent intent = new Intent(Settings.ACTION_ACCESSIBILITY_SETTINGS);
+            startActivity(intent);
+        });
+
+        refreshUi();
     }
 
     @Override
     protected void onResume() {
         super.onResume();
+        refreshUi();
+    }
+    private void refreshUi() {
         updateAccessibilityStatus();
         updateCredits();
         updateBlockedAppsCount();
@@ -83,8 +101,10 @@ public class MainActivity extends AppCompatActivity {
     private void updateAccessibilityStatus() {
         if (isAccessibilityServiceEnabled()) {
             tvStatus.setText(R.string.status_enabled);
+            btnOpenAccessibilitySettings.setVisibility(View.GONE);
         } else {
             tvStatus.setText(R.string.status_not_enabled);
+            btnOpenAccessibilitySettings.setVisibility(View.VISIBLE);
         }
     }
 
@@ -113,6 +133,7 @@ public class MainActivity extends AppCompatActivity {
 
                 while (splitter.hasNext()) {
                     String enabledService = splitter.next();
+                    Log.d(TAG, "Enabled service: " + enabledService);
 
                     if (enabledService.equalsIgnoreCase(serviceName)) {
                         return true;
@@ -123,4 +144,6 @@ public class MainActivity extends AppCompatActivity {
 
         return false;
     }
+
+
 }

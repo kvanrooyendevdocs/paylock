@@ -19,7 +19,7 @@
         android:id="@+id/tvSubtitle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Block distracting apps until you wait, solve, or pay."
+        android:text="@string/main_subtitle"
         android:textSize="16sp"
         android:gravity="center"
         android:layout_marginBottom="24dp" />
@@ -28,27 +28,27 @@
         android:id="@+id/btnEnableAccessibility"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Enable Accessibility" />
+        android:text="@string/enable_accessibility" />
 
     <Button
         android:id="@+id/btnSelectApps"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Select Apps"
+        android:text="@string/select_apps"
         android:layout_marginTop="12dp" />
 
     <Button
         android:id="@+id/btnResetCredits"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Reset Credits"
+        android:text="@string/reset_credits"
         android:layout_marginTop="12dp" />
 
     <Button
         android:id="@+id/btnResetBlockedApps"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Reset Blocked Apps"
+        android:text="@string/reset_blocked_apps"
         android:layout_marginTop="12dp" />
 
     <TextView
@@ -76,5 +76,12 @@
         android:textSize="16sp"
         android:textStyle="bold"
         android:layout_marginTop="12dp" />
+
+    <Button
+        android:id="@+id/btnOpenAccessibilitySettings"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/open_accessibility_settings"
+        android:visibility="gone" />
 
 </LinearLayout>
